@@ -1,0 +1,47 @@
+module bit_8_alu (
+    input [7:0] A, B,         // 8-bit inputs
+    input [2:0] ALU_Sel,      // 3-bit ALU selection
+    input Cin,                // Initial carry-in
+    output [7:0] ALU_Out,     // 8-bit result
+    output Cout               // Carry-out
+);
+
+    wire [7:0] Carry; // Internal carry signals
+	 
+	 /*
+		for(i=1; i<8; i=i+1) begin
+			bit_1_alu ALU[i] (
+				.A(A[i]), .B(B[i]), .Cin(Carry[i-1]), .ALU_Sel(ALU_Sel), .Result(ALU_Out[i]), .Cout(Carry[i]));
+	 */
+
+    bit_1_alu ALU0 (   // Instantiate 8 one-bit ALUs
+		.A(A[0]), .B(B[0]), .Cin(Cin), .ALU_Sel(ALU_Sel), .Result(ALU_Out[0]), .Cout(Carry[0])
+	 );
+	 
+    bit_1_alu ALU1 (
+		.A(A[1]), .B(B[1]), .Cin(Carry[0]), .ALU_Sel(ALU_Sel), .Result(ALU_Out[1]), .Cout(Carry[1])
+	 );
+	 
+    bit_1_alu ALU2 (
+		.A(A[2]), .B(B[2]), .Cin(Carry[1]), .ALU_Sel(ALU_Sel), .Result(ALU_Out[2]), .Cout(Carry[2])
+	 );
+	 
+    bit_1_alu ALU3 (
+		.A(A[3]), .B(B[3]), .Cin(Carry[2]), .ALU_Sel(ALU_Sel), .Result(ALU_Out[3]), .Cout(Carry[3])
+	);
+	
+    bit_1_alu ALU4 (
+		.A(A[4]), .B(B[4]), .Cin(Carry[3]), .ALU_Sel(ALU_Sel), .Result(ALU_Out[4]), .Cout(Carry[4])
+	 );
+	 
+    bit_1_alu ALU5 (
+		.A(A[5]), .B(B[5]), .Cin(Carry[4]), .ALU_Sel(ALU_Sel), .Result(ALU_Out[5]), .Cout(Carry[5])
+	 );
+    bit_1_alu ALU6 (
+		.A(A[6]), .B(B[6]), .Cin(Carry[5]), .ALU_Sel(ALU_Sel), .Result(ALU_Out[6]), .Cout(Carry[6])
+	 );
+    bit_1_alu ALU7 (
+		.A(A[7]), .B(B[7]), .Cin(Carry[6]), .ALU_Sel(ALU_Sel), .Result(ALU_Out[7]), .Cout(Cout)
+	 );  // Final carry-out
+
+endmodule
